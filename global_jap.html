@@ -1417,8 +1417,8 @@ function startCountdown(beforeFireMs,alarmVolZero){
   if(cur && Number(cur.lastFiredMs||0)>beforeFireMs){
     stopCountdown();
     const okMsg=l==='hi'
-      ?'✅ Test Pass! Real Alarm system ने ठीक 10s में अलार्म बजा दिया — सुबह का रिमाइंडर भी काम करेगा!'
-      :(l==='mr'?'✅ Test Pass! Real Alarm system ने बरोबर 10s मध्ये अलार्म वाजवला!':'✅ Test Pass! Real Alarm fired on time — morning Japa reminder is ready!');
+      ?'✅ अलार्म टेस्ट प्राप्त हुआ। रोज़ के रिमाइंडर के लिए फ़ोन की नोटिफिकेशन और अलार्म परमिशन चालू रखें।'
+      :(l==='mr'?'✅ अलार्म टेस्ट यशस्वी। दररोजच्या स्मरणांसाठी फोनच्या सूचना आणि अलार्म परवानग्या चालू ठेवा.':'✅ Alarm test received. Daily delivery also depends on system permissions and battery settings.');
     status(okMsg,'#1b5e20');
     render();
     return;
@@ -1429,14 +1429,14 @@ function startCountdown(beforeFireMs,alarmVolZero){
       ?'⏳ अलार्म बजने में '+rem+' सेकंड... (कृपया प्रतीक्षा करें'+(alarmVolZero?' — Alarm Volume 0 है, केवल वाइब्रेशन होगा':'')+')'
       :(l==='mr'?'⏳ अलार्म वाजण्यात '+rem+' सेकंद...':'⏳ Real alarm ringing in '+rem+'s...'+(alarmVolZero?' (Alarm volume is 0 — vibration only)':''));
     box.textContent=waitTxt;
-  } else if(elapsedSec<15){
+  } else if(elapsedSec<30){
     testBtn.textContent='⏳ Checking...';
-    box.textContent=l==='hi'?'⏳ अलार्म ट्रिगर चेक किया जा रहा है...':'⏳ Verifying OS alarm trigger...';
+    box.textContent=l==='hi'?'⏳ अलार्म की पुष्टि हो रही है। कुछ फ़ोन में थोड़ी देरी हो सकती है...':'⏳ Checking the alarm. Battery-saving phones may take a little longer...';
   } else {
     stopCountdown();
     const failMsg=l==='hi'
-      ?'⚠️ 15 सेकंड हो गए पर OS ने अलार्म फायर नहीं किया! कृपया AndroidManifest (TempleAlarmV24$AlarmReceiver) या फोन की Battery / Autostart सेटिंग चेक करें।'
-      :'⚠️ 15s elapsed and OS did not trigger AlarmReceiver. Check AndroidManifest receivers or phone Battery/Autostart settings.';
+      ?'⚠️ 30 सेकंड में अलार्म की पुष्टि नहीं मिली। फ़ोन में ISKCON Hadapsar की Notifications, Alarms & reminders तथा Battery → Unrestricted सेटिंग जाँचें।'
+      :'⚠️ Alarm not confirmed within 30 seconds. Check ISKCON Hadapsar notification access, Alarms & reminders, and battery restrictions in Android Settings.';
     status(failMsg,'#b71c1c');
     render();
   }
