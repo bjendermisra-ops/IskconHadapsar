@@ -159,3 +159,55 @@
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true }); else init();
 })(typeof window === 'undefined' ? globalThis : window);
+
+
+/* v20: one-document-at-a-time cache, bounded to visited public pages on disk. */
+(function(){
+  'use strict';
+  if (typeof window === 'undefined' || typeof document === 'undefined') return;
+  function pageReady(){
+    var bridge=window.AndroidBridge;
+    var lite=false;
+    try {lite=!!(bridge&&typeof bridge.isLowMemoryDevice==='function'&&bridge.isLowMemoryDevice());}catch(e){}
+    if(lite){
+      document.documentElement.setAttribute('data-temple-lite','true');
+      var css=document.createElement('style');css.id='temple-v20-lite';
+      css.textContent='html[data-temple-lite="true"] *,html[data-temple-lite="true"] *::before,html[data-temple-lite="true"] *::after{animation-duration:0.01ms!important;animation-iteration-count:1!important;transition-duration:0ms!important;scroll-behavior:auto!important}';
+      document.head.appendChild(css);
+    }
+    // Do not preload an offscreen gallery when the user only opens the current page.
+    try {
+      var imgs=document.querySelectorAll('img:not([loading])');
+      for(var i=0;i<imgs.length;i++){
+        if(i>2) imgs[i].setAttribute('loading','lazy');
+        imgs[i].setAttribute('decoding','async');
+      }
+      var videos=document.querySelectorAll('video');
+      for(var j=0;j<videos.length;j++) if(!videos[j].hasAttribute('autoplay')) videos[j].preload='none';
+      var frames=document.querySelectorAll('iframe:not([loading])');
+      for(var k=0;k<frames.length;k++) frames[k].setAttribute('loading','lazy');
+    } catch(e){}
+    var release=function(){
+      try{
+        document.querySelectorAll('video,audio').forEach(function(media){
+          try{media.pause();}catch(e){}
+        });
+      }catch(e){}
+    };
+    window.addEventListener('pagehide',release);
+    window.addEventListener('temple-memory-pressure',function(){
+      // Memory callbacks are advisory; never clear origin data, cookies or WebView history.
+      if(document.hidden) release();
+    });
+    if(location.protocol!=='https:' || !('serviceWorker' in navigator))return;
+    // SW only caches safe same-origin public GET documents and small static assets.
+    navigator.serviceWorker.register('/sw.js',{scope:'/'}).then(function(){
+      return navigator.serviceWorker.ready;
+    }).then(function(reg){
+      var active=navigator.serviceWorker.controller||reg.active;
+      if(active)active.postMessage({type:'ISKCON_CACHE_CURRENT',url:location.href});
+    }).catch(function(){/* WebView may disable SW; the native HTTP cache still works. */});
+  }
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',pageReady,{once:true});
+  else pageReady();
+})();
