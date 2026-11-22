@@ -1,0 +1,117 @@
+{
+  "schema": 1,
+  "version": "2026-11-17-v1",
+  "timezone": "Asia/Kolkata",
+  "events": [
+    {
+      "id": 101,
+      "time": "04:30",
+      "active": true,
+      "name": {
+        "en": "Mangal Aarti",
+        "hi": "मंगल आरती",
+        "mr": "मंगल आरती"
+      }
+    },
+    {
+      "id": 102,
+      "time": "05:15",
+      "active": true,
+      "name": {
+        "en": "Tulasi Aarti",
+        "hi": "तुलसी आरती",
+        "mr": "तुळशी आरती"
+      }
+    },
+    {
+      "id": 103,
+      "time": "07:30",
+      "active": true,
+      "name": {
+        "en": "Guru Puja",
+        "hi": "गुरु पूजा",
+        "mr": "गुरू पूजा"
+      }
+    },
+    {
+      "id": 104,
+      "time": "08:30",
+      "active": true,
+      "name": {
+        "en": "Darshan Aarti",
+        "hi": "दर्शन आरती",
+        "mr": "दर्शन आरती"
+      }
+    },
+    {
+      "id": 105,
+      "time": "12:30",
+      "active": true,
+      "name": {
+        "en": "Raj Bhoga Aarti",
+        "hi": "राज भोग आरती",
+        "mr": "राज भोग आरती"
+      }
+    },
+    {
+      "id": 106,
+      "time": "13:00",
+      "active": true,
+      "name": {
+        "en": "Temple Closes",
+        "hi": "मंदिर विश्राम",
+        "mr": "मंदिर बंद"
+      }
+    },
+    {
+      "id": 107,
+      "time": "16:15",
+      "active": true,
+      "name": {
+        "en": "Utthapana Aarti",
+        "hi": "उत्थापन आरती",
+        "mr": "उत्थापन आरती"
+      }
+    },
+    {
+      "id": 108,
+      "time": "19:00",
+      "active": true,
+      "name": {
+        "en": "Sandhya Aarti",
+        "hi": "संध्या आरती",
+        "mr": "संध्या आरती"
+      }
+    },
+    {
+      "id": 109,
+      "time": "20:30",
+      "active": true,
+      "name": {
+        "en": "Shayana Aarti",
+        "hi": "शयन आरती",
+        "mr": "शयन आरती"
+      }
+    },
+    {
+      "id": 110,
+      "time": "21:00",
+      "active": true,
+      "name": {
+        "en": "Temple Closes",
+        "hi": "मंदिर बंद",
+        "mr": "मंदिर बंद"
+      }
+    },
+    {
+      "id": 9001,
+      "time": "05:15",
+      "active": true,
+      "name": {
+        "en": "Global Japa",
+        "hi": "ग्लोबल जप",
+        "mr": "ग्लोबल जप"
+      }
+    }
+  ]
+}

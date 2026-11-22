@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>html{background:#fff8ee}html:has(body.dark-mode){background:#181818}</style>
+<script defer src="temple-runtime.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>About Us - ISKCON Hadapsar</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&family=Noto+Serif+Devanagari:wght@600;700;800&family=Poppins:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#FF9933;--primary-dark:#E65100;--gold:#FFD54F;
+  --bg:#FBF7F2;--card:#FFFFFF;--text:#1e293b;--muted:#64748b;
+  --border:rgba(255,153,51,.28);--shadow:0 12px 32px -12px rgba(120,60,0,.18);
+}
+[data-theme="dark"]{
+  --bg:#0b0f19;--card:#141b2b;--text:#f1f5f9;--muted:#94a3b8;
+  --border:rgba(255,153,51,.25);--shadow:0 12px 32px -12px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--text);font-family:'Poppins',sans-serif;
+  padding-bottom:calc(40px + env(safe-area-inset-bottom,0px));overflow-x:hidden;-webkit-tap-highlight-color:transparent}
+img{max-width:100%}
+
+#scroll-progress{position:fixed;top:0;left:0;height:3px;width:0;z-index:2000;
+  background:linear-gradient(90deg,var(--gold),var(--primary),#FF3D00)}
+
+/* NAV */
+.top-nav{position:sticky;top:0;z-index:1000;display:flex;align-items:center;gap:14px;
+  padding:calc(14px + env(safe-area-inset-top,0px)) 18px 14px;
+  background:linear-gradient(135deg,#FF9933,#E65100);box-shadow:0 4px 18px rgba(230,81,0,.3)}
+.back-btn{width:40px;height:40px;flex:none;display:flex;align-items:center;justify-content:center;
+  border-radius:50%;color:#fff;text-decoration:none;font-size:1.15rem;
+  background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);transition:transform .2s}
+.back-btn:active{transform:scale(.88)}
+.page-title{margin:0;color:#fff;font-family:'Space Grotesk','Poppins',sans-serif;font-size:1.2rem;font-weight:700}
+
+/* HERO: full image always visible */
+.hero{position:relative;overflow:hidden;padding:28px 18px 34px;text-align:center;
+  border-radius:0 0 36px 36px;background:#1a0f05;box-shadow:var(--shadow)}
+.hero-bg{position:absolute;inset:-30px;background:center/cover no-repeat;filter:blur(28px) brightness(.55) saturate(1.4)}
+.hero-frame{position:relative;width:min(100%,380px);aspect-ratio:1/1;margin:0 auto;border-radius:28px;
+  padding:5px;background:linear-gradient(135deg,var(--gold),var(--primary),var(--primary-dark));
+  box-shadow:0 18px 40px rgba(0,0,0,.55)}
+.hero-frame img{display:block;width:100%;height:100%;object-fit:contain;border-radius:23px;background:#000}
+.hero h2{position:relative;margin:22px 0 8px;color:#fff;font-family:'Cinzel','Noto Serif Devanagari',serif;font-weight:800;
+  font-size:clamp(1.45rem,6.5vw,2rem);line-height:1.3;text-shadow:0 3px 14px rgba(0,0,0,.8)}
+.hero p{position:relative;margin:0;color:var(--gold);font-family:'Space Grotesk','Poppins',sans-serif;font-weight:700;
+  letter-spacing:.12em;font-size:.95rem}
+
+/* CARDS */
+.wrap{max-width:640px;margin:0 auto;padding:28px 16px 0}
+.info-card{position:relative;background:var(--card);border:1px solid var(--border);border-radius:22px;
+  padding:26px 22px 26px 26px;margin-bottom:22px;box-shadow:var(--shadow);overflow:hidden}
+.info-card::before{content:'';position:absolute;inset:0 auto 0 0;width:5px;
+  background:linear-gradient(to bottom,var(--primary),var(--primary-dark))}
+.info-title{display:flex;align-items:center;gap:10px;margin:0 0 14px;font-family:'Cinzel','Noto Serif Devanagari',serif;
+  font-weight:800;font-size:1.3rem;color:var(--primary-dark)}
+[data-theme="dark"] .info-title{color:var(--primary)}
+.info-title i{color:var(--primary);font-size:1.3rem}
+.info-text{margin:0;font-size:.97rem;line-height:1.75;text-align:left;color:var(--text)}
+
+.sunday-card{background:linear-gradient(135deg,rgba(255,153,51,.16),var(--card) 70%);border-color:rgba(255,153,51,.55)}
+.badge-tag{display:inline-flex;align-items:center;gap:8px;margin-bottom:12px;padding:6px 14px;border-radius:30px;
+  background:linear-gradient(90deg,var(--primary-dark),var(--primary));color:#fff;font-weight:700;font-size:.82rem;
+  box-shadow:0 6px 14px rgba(255,153,51,.4)}
+
+.founder-box{display:flex;align-items:center;gap:16px;margin-top:22px;padding:16px;border-radius:18px;
+  background:rgba(255,153,51,.08);border:1px solid var(--border)}
+.founder-img{width:78px;height:78px;flex:none;border-radius:50%;object-fit:cover;object-position:top center;
+  border:3px solid var(--primary);background:#fff;padding:2px}
+.founder-name{margin:0;font-family:'Cinzel','Noto Serif Devanagari',serif;font-weight:800;font-size:1.05rem}
+.founder-sub{margin:4px 0 0;font-size:.82rem;color:var(--muted);line-height:1.5}
+
+/* CONTACT */
+.contact-label{margin:22px 0 12px;font-family:'Space Grotesk','Poppins',sans-serif;font-weight:700;font-size:.95rem;color:var(--primary-dark)}
+[data-theme="dark"] .contact-label{color:var(--primary)}
+.contact-pro{text-align:center;padding:22px 16px;border-radius:20px;border:1px solid var(--border);
+  background:rgba(255,153,51,.07)}
+.cp-avatar{width:58px;height:58px;margin:0 auto 10px;border-radius:50%;display:flex;align-items:center;
+  justify-content:center;font-size:1.5rem;color:#fff;background:linear-gradient(135deg,#FF9933,#E65100);
+  box-shadow:0 8px 18px rgba(255,153,51,.45)}
+.cp-name{font-family:'Space Grotesk','Poppins',sans-serif;font-size:1.15rem;font-weight:700}
+.cp-num{margin-top:2px;font-size:.95rem;font-weight:600;color:var(--muted);letter-spacing:.4px}
+.cp-btns{display:flex;gap:10px;margin-top:16px}
+.cp-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 8px;border-radius:14px;
+  font-weight:700;font-size:.95rem;color:#fff!important;text-decoration:none;transition:transform .15s}
+.cp-btn:active{transform:scale(.95)}
+.cp-call{background:linear-gradient(135deg,#2563eb,#1e40af);box-shadow:0 6px 16px rgba(37,99,235,.35)}
+.cp-wa{background:linear-gradient(135deg,#25D366,#128C7E);box-shadow:0 6px 16px rgba(37,211,102,.35)}
+
+/* FEATURES */
+.feature-list{list-style:none;margin:20px 0 0;padding:0}
+.feature-list li{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;padding:12px 14px;border-radius:14px;
+  background:rgba(255,153,51,.07);border:1px solid var(--border);font-size:.92rem;line-height:1.5}
+.feature-list i{margin-top:3px;font-size:1.15rem;color:#16a34a}
+.community-cta{margin-top:22px;padding-top:22px;text-align:center;border-top:1px dashed var(--border)}
+.community-cta h5{margin:0 0 6px;font-family:'Space Grotesk','Poppins',sans-serif;font-weight:700}
+.community-cta p{margin:0 0 16px;font-size:.85rem;color:var(--muted)}
+.btn-community{display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%;max-width:280px;
+  padding:14px 28px;border-radius:40px;color:#fff!important;text-decoration:none;font-weight:700;
+  font-family:'Space Grotesk','Poppins',sans-serif;background:linear-gradient(135deg,#25D366,#128C7E);
+  box-shadow:0 10px 24px rgba(37,211,102,.4)}
+.btn-community:active{transform:scale(.96)}
+
+@media (prefers-reduced-motion:no-preference){
+  .hero-frame{animation:glow 3.5s ease-in-out infinite alternate}
+  @keyframes glow{from{box-shadow:0 18px 40px rgba(0,0,0,.55)}to{box-shadow:0 18px 50px rgba(255,153,51,.55)}}
+}
+</style>
+</head>
+<body>
+<div id="scroll-progress"></div>
+
+<div class="top-nav">
+  <a href="index.html" class="back-btn" aria-label="Back"><i class="fas fa-arrow-left"></i></a>
+  <h1 class="page-title" data-i18n="navTitle">About Our Temple</h1>
+</div>
+
+<header class="hero">
+  <div class="hero-bg" style="background-image:url('https://givehadapsar.iskconpunecamp.com/storage/logos/temple-15-1780211472.png')"></div>
+  <div class="hero-frame">
+    <img src="https://givehadapsar.iskconpunecamp.com/storage/logos/temple-15-1780211472.png" alt="ISKCON Hadapsar logo">
+  </div>
+  <h2 data-i18n="heroTitle">ISKCON Hadapsar</h2>
+  <p data-i18n="heroSub">Bhosale Nagar, Hadapsar, Pune 411028</p>
+</header>
+
+<main class="wrap">
+
+  
+
+  <section class="info-card">
+    <h3 class="info-title"><i class="fas fa-dharmachakra"></i> <span data-i18n="missionTitle">Our Mission</span></h3>
+    <p class="info-text" data-i18n="missionText">Our temple is dedicated to spreading spiritual peace, Harinam Sankirtan, the teachings of the Bhagavad Gita and Srimad Bhagavatam, and Vedic education in society.<br><br>We invite everyone to experience the pure bliss of devotion, beautiful Darshan, and Karma-free Prasadam.</p>
+    <div class="founder-box">
+      <img class="founder-img" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEi5hkIkyF3HrD_o7LWrUnrjvPOfjm-o1z6601td6eaheMQLLEC3nJZwaIv9Pf8HKB4zdQ7sa84aNvoOfclcDcEQGCV920rXQmUVHNxbtS-R1SeV6sfXp6ur-7L6ZRK7XmweCNA7f0JBwadltetcwQb9yA33NwL7x2UjdnZXVTfo8x4LePy3ka_u0fo7nnU/s577/1000228679.png" alt="Srila Prabhupada">
+      <div>
+        <h4 class="founder-name" data-i18n="founderName">His Divine Grace</h4>
+        <p class="founder-sub" data-i18n="founderSub">A.C. Bhaktivedanta Swami Prabhupada<br>Our Revered Spiritual Master</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-card">
+    <h3 class="info-title"><i class="fas fa-address-book"></i> <span data-i18n="hallTitle">Contact the Temple</span></h3>
+    <p class="info-text" data-i18n="hallText">For Temple Programs, seva, temple programs or any questions, please contact the temple team.</p>
+    <h5 class="contact-label" data-i18n="contactInfo">For Inquiries</h5>
+    <div class="contact-pro">
+      <div class="cp-avatar"><i class="fas fa-user-tie"></i></div>
+      <div class="cp-name" data-i18n="contact1">ISKCON Hadapsar Contact</div>
+      <div class="cp-num">+91 92095 51462</div>
+      <div class="cp-btns">
+        <a href="tel:+919209551462" class="cp-btn cp-call"><i class="fas fa-phone-alt"></i> <span data-i18n="callBtn">Call</span></a>
+        <a href="https://wa.me/919209551462" target="_blank" rel="noopener" class="cp-btn cp-wa"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="info-card">
+    <h3 class="info-title"><i class="fas fa-mobile-screen"></i> <span data-i18n="appTitle">About This App</span></h3>
+    <p class="info-text" data-i18n="appText">This official application was crafted to bring the temple directly to your fingertips, ensuring you stay connected with the temple anywhere in the world.</p>
+    <ul class="feature-list">
+      <li><i class="fas fa-check-circle"></i> <span data-i18n="f1"><b>Live Darshan:</b> Stream daily deity Darshan.</span></li>
+      <li><i class="fas fa-check-circle"></i> <span data-i18n="f2"><b>Digital Japa:</b> Track your daily chanting.</span></li>
+      <li><i class="fas fa-check-circle"></i> <span data-i18n="f3"><b>Ekadashi Alerts:</b> Never miss a fasting day.</span></li>
+      <li><i class="fas fa-check-circle"></i> <span data-i18n="f4"><b>Secure Donations:</b> Donation information on official website.</span></li>
+    </ul>
+    <div class="community-cta">
+      <h5 data-i18n="communityTitle">Join Our Community</h5>
+      <p data-i18n="communityText">Find verified programs and announcements on the official website.</p>
+      <a href="https://iskconhadapsar.com/" target="_blank" rel="noopener" class="btn-community">
+        <i class="fab fa-whatsapp" style="font-size:1.35rem"></i> Official Website
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// Scroll progress
+window.addEventListener('scroll', function(){
+  var h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+  var s = document.documentElement.scrollTop || document.body.scrollTop;
+  document.getElementById('scroll-progress').style.width = (h > 0 ? s / h * 100 : 0) + '%';
+}, {passive:true});
+
+var translations = {
+  en:{navTitle:"About Our Temple",heroTitle:"ISKCON Hadapsar",heroSub:"Bhosale Nagar, Hadapsar, Pune 411028",sundayTag:"Every Sunday",sundayTitle:"Temple Programs",
+    sundayText:"Experience the ultimate spiritual bliss! Join us every Sunday for ecstatic Kirtan, enlightening Bhagavad Gita classes, and unlimited delicious Karma-free Prasadam. Everyone is welcome to join the celebration!",
+    missionTitle:"Our Mission",
+    missionText:"Our temple is dedicated to spreading spiritual peace, Harinam Sankirtan, the teachings of the Bhagavad Gita and Srimad Bhagavatam, and Vedic education in society.<br><br>We invite everyone to experience the pure bliss of devotion, beautiful Darshan, and Karma-free Prasadam.",
+    founderName:"His Divine Grace",founderSub:"A.C. Bhaktivedanta Swami Prabhupada<br>Our Revered Spiritual Master",
+    appTitle:"About This App",appText:"This official application was crafted to bring the temple directly to your fingertips, ensuring you stay connected with the temple anywhere in the world.",
+    f1:"<b>Live Darshan:</b> Stream daily deity Darshan.",f2:"<b>Digital Japa:</b> Track your daily chanting.",f3:"<b>Ekadashi Alerts:</b> Never miss a fasting day.",f4:"<b>Secure Donations:</b> Donation information on official website.",
+    hallTitle:"Contact the Temple",hallText:"For Temple Programs, seva, temple programs or any questions, please contact the temple team.",
+    contactInfo:"For Inquiries",contact1:"ISKCON Hadapsar Contact",callBtn:"Call",communityTitle:"Join Our Community",communityText:"Find verified programs and announcements on the official website."},
+  hi:{navTitle:"हमारे मंदिर के बारे में",heroTitle:"इस्कॉन हडपसर",heroSub:"भोसले नगर, हडपसर, पुणे ४११०२८",sundayTag:"हर रविवार",sundayTitle:"मंदिर कार्यक्रम (रविवार विशेष)",
+    sundayText:"परम आध्यात्मिक आनंद का अनुभव करें! हर रविवार को हमारे साथ जुड़ें अद्भुत संकीर्तन, भगवद गीता प्रवचन और स्वादिष्ट कर्म-मुक्त प्रसादम के लिए। इस उत्सव में सभी का स्वागत है!",
+    missionTitle:"हमारा मिशन",
+    missionText:"हमारा मंदिर समाज में आध्यात्मिक शांति, हरिनाम संकीर्तन, भगवद गीता और श्रीमद् भागवतम के उपदेशों तथा वैदिक शिक्षा के प्रचार के लिए समर्पित है।<br><br>हम सभी को सुंदर दर्शन, भक्ति के आनंद और कर्म-मुक्त प्रसादम का अनुभव करने के लिए आमंत्रित करते हैं।",
+    founderName:"हिज़ डिवाइन ग्रेस",founderSub:"ए.सी. भक्तिवेदांत स्वामी प्रभुपाद<br>हमारे परम पूज्य गुरु",
+    appTitle:"इस ऐप के बारे में",appText:"यह आधिकारिक एप्लिकेशन मंदिर को सीधे आपकी उंगलियों तक लाने के लिए बनाया गया है, जिससे आप दुनिया में कहीं भी मंदिर से जुड़े रह सकें।",
+    f1:"<b>लाइव दर्शन:</b> दैनिक भगवान के दर्शन करें।",f2:"<b>डिजिटल जप:</b> अपने दैनिक जप को ट्रैक करें।",f3:"<b>एकादशी अलर्ट:</b> उपवास का दिन कभी न चूकें।",f4:"<b>सुरक्षित दान:</b> 80G कर रसीद प्राप्त करें।",
+    hallTitle:"मंदिर से संपर्क करें",hallText:"मंदिर कार्यक्रम, सेवा, मंदिर के कार्यक्रम या किसी भी जानकारी के लिए मंदिर टीम से संपर्क करें।",
+    contactInfo:"पूछताछ के लिए",contact1:"इस्कॉन हडपसर संपर्क",callBtn:"कॉल करें",communityTitle:"हमारे समुदाय से जुड़ें",communityText:"अपने फोन पर सीधे दैनिक दर्शन, आध्यात्मिक विचार और उत्सव के अपडेट प्राप्त करें।"},
+  mr:{navTitle:"आमच्या मंदिराबद्दल",heroTitle:"इस्कॉन हडपसर",heroSub:"भोसले नगर, हडपसर, पुणे ४११०२८",sundayTag:"दर रविवारी",sundayTitle:"मंदिर कार्यक्रम (रविवार विशेष)",
+    sundayText:"परम आध्यात्मिक आनंदाचा अनुभव घ्या! दर रविवारी आमच्यासोबत सामील व्हा - अद्भुत संकीर्तन, भगवद्गीता प्रवचन आणि अमर्यादित स्वादिष्ट कर्म-मुक्त प्रसादासाठी. या उत्सवात सर्वांचे स्वागत आहे!",
+    missionTitle:"आमचे ध्येय",
+    missionText:"आमचे मंदिर समाजात आध्यात्मिक शांती, हरिनाम संकीर्तन, भगवद्गीता आणि श्रीमद भागवतम् च्या शिकवणीचा तसेच वैदिक शिक्षणाचा प्रचार करण्यासाठी समर्पित आहे.<br><br>आम्ही सर्वांना सुंदर दर्शन, भक्तीचा आनंद आणि कर्म-मुक्त प्रसादाचा अनुभव घेण्यासाठी आमंत्रित करतो.",
+    founderName:"हिज डिव्हाईन ग्रेस",founderSub:"ए.सी. भक्तिवेदांत स्वामी प्रभुपाद<br>आमचे परम पूज्य गुरु",
+    appTitle:"या ॲपबद्दल",appText:"हे अधिकृत ॲप्लिकेशन मंदिर थेट तुमच्या बोटांच्या टोकावर आणण्यासाठी तयार केले आहे, ज्यामुळे तुम्ही जगात कुठेही मंदिराशी जोडलेले राहाल.",
+    f1:"<b>थेट दर्शन:</b> दररोज भगवंतांचे दर्शन घ्या.",f2:"<b>डिजिटल जप:</b> तुमच्या दैनंदिन जपाचा मागोवा घ्या.",f3:"<b>एकादशी अलर्ट:</b> उपवासाचा दिवस कधीही चुकवू नका.",f4:"<b>सुरक्षित देणगी:</b> त्वरित 80G कर पावती.",
+    hallTitle:"मंदिराशी संपर्क साधा",hallText:"मंदिर कार्यक्रम, सेवा, मंदिराचे कार्यक्रम किंवा कोणत्याही माहितीसाठी मंदिर टीमशी संपर्क साधा.",
+    contactInfo:"चौकशीसाठी",contact1:"इस्कॉन हडपसर संपर्क",callBtn:"कॉल करा",communityTitle:"आमच्या समुदायात सामील व्हा",communityText:"तुमच्या फोनवर थेट दररोजचे दर्शन, आध्यात्मिक विचार आणि उत्सवांचे अपडेट्स मिळवा."}
+};
+
+function syncAppCreatorData(){
+  var theme = 'light', lang = 'en';
+  try { theme = localStorage.getItem('theme') || 'light'; lang = localStorage.getItem('lang') || 'en'; } catch(e){}
+  if (theme === 'dark') document.documentElement.setAttribute('data-theme','dark');
+  else document.documentElement.removeAttribute('data-theme');
+  if (!translations[lang]) lang = 'en';
+  document.documentElement.lang = lang;
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var v = translations[lang][el.getAttribute('data-i18n')];
+    if (v) el.innerHTML = v;
+  });
+}
+document.addEventListener('DOMContentLoaded', syncAppCreatorData);
+window.addEventListener('storage', syncAppCreatorData);
+</script>
+</body>
+</html>
