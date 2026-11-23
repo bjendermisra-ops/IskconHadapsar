@@ -1,6 +1,6 @@
 [
- {"kind":"audio","title":"Morning bells","description":"A gentle, eight-note temple chime","url":"/media/morning-bells.mp3"},
- {"kind":"audio","title":"Evening flute","description":"A short, soft flute melody","url":"/media/evening-flute.mp3"},
+ {"kind":"audio","title":"Morning bells","description":"A gentle, eight-note temple chime","url":"/media/morning-bells.mp3","thumbnail":"/media/bells-cover.webp"},
+ {"kind":"audio","title":"Evening flute","description":"A short, soft flute melody","url":"/media/evening-flute.mp3","thumbnail":"/media/flute-cover.webp"},
  {"kind":"image","title":"Midnight lotus","description":"ISKCON Hadapsar • Dark wallpaper","url":"/media/midnight-lotus.webp","thumbnail":"/media/midnight-lotus-thumb.webp"},
  {"kind":"image","title":"Little Krishna","description":"A colourful portrait for your phone","url":"/krishna.webp","thumbnail":"/media/little-krishna-thumb.webp"}
 ]
