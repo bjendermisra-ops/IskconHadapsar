@@ -1,0 +1,19 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Ringtones & wallpapers · ISKCON Hadapsar</title><script src="/temple-share.js?v=2"></script>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f7f3ed;color:#2d2430;font:16px system-ui,sans-serif}main{max-width:880px;margin:auto;padding:24px clamp(16px,4vw,40px) 56px}nav,header,.actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}nav{justify-content:space-between}nav a{color:inherit;text-decoration:none}header{margin:36px 0 20px}h1,h2{font-family:Georgia,serif;font-weight:500}h1{font-size:clamp(32px,6vw,55px);margin:0}h2{font-size:28px;margin:28px 0 14px}h3{margin:0 0 6px;font-size:20px}p{color:#635762;margin:0 0 18px}button{color:#442c44;background:#fffaf3;border:1px solid #cebdc7;border-radius:24px;padding:10px 15px;min-height:44px;font:600 14px system-ui;cursor:pointer}button.primary{background:#523654;color:white;border-color:#523654}section>div{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,255px),1fr));gap:14px}article{overflow:hidden;background:#fffaf5;border-radius:18px;border:1px solid #e1d6ce;padding:20px}article img{width:100%;height:230px;object-fit:contain;background:#19151a;border-radius:12px;margin-bottom:15px}.actions{gap:6px}.actions button{padding:9px 13px}audio{width:100%}
+</style></head><body><main><nav><a href="/">‹ ISKCON Hadapsar</a><button id="saved" hidden>Saved media</button></nav><header><h1>Ringtones & wallpapers</h1></header><p>Save a favourite once and enjoy it offline in the app.</p><section><h2>Ringtones</h2><div id="audio"></div></section><section><h2>Wallpapers</h2><div id="image"></div></section><p id="status" role="status"></p></main>
+<script>
+const saved=document.getElementById('saved');
+const offlineMedia=TempleShare.native && navigator.userAgent.includes('HadapsarOffline/1');
+saved.hidden=!offlineMedia;saved.onclick=()=>TempleShare.openSaved();
+function button(label,fn,primary=false){const b=document.createElement('button');b.textContent=label;b.onclick=fn;if(primary)b.className='primary';return b}
+function card(item){
+ const {kind,title,url,thumbnail,description}=item;if(!['image','audio'].includes(kind))return;
+ const box=document.createElement('article'),h=document.createElement('h3'),p=document.createElement('p'),actions=document.createElement('div');actions.className='actions';h.textContent=title;p.textContent=description||'';
+ if(kind==='image'&&thumbnail){const im=document.createElement('img');im.src=thumbnail;im.alt=title;im.loading='lazy';box.append(im)}
+ box.append(h,p,actions);
+ const preview=()=>{if(offlineMedia){TempleShare.previewMedia(url,title);return}if(kind==='image'){location.assign(url);return}let a=box.querySelector('audio');if(!a){a=document.createElement('audio');a.controls=true;a.src=url;box.append(a)}a.play().catch(()=>{})};
+ actions.append(button(kind==='audio'?'Listen':'View',preview),button('Save',()=>TempleShare.download(url,title)),button(kind==='audio'?'Set ringtone':'Set wallpaper',()=>kind==='audio'?TempleShare.setRingtone(url,title):TempleShare.setWallpaper(url,title),true));document.getElementById(kind).append(box);
+}
+fetch('/media/catalog.json',{cache:'no-cache'}).then(r=>{if(!r.ok)throw Error();return r.json()}).then(items=>items.forEach(card)).catch(()=>document.getElementById('status').textContent='Catalog unavailable. Open Saved media in the app for downloaded items.');
+</script></body></html>

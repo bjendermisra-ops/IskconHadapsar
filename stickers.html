@@ -160,8 +160,9 @@ document.addEventListener('pointerdown',()=>{if(pending&&Date.now()-pending.t0>2
 window.onNativeStatus=function(v){let d=v;
 if(typeof v==='string'){try{d=JSON.parse(v)}catch{if(pending){if(/cancel|declin|dismiss/i.test(v))finish();else{pending.ns=Date.now();status(v,['stop',()=>finish()]);arm()}}return}}
 if(!d||typeof d!=='object')return;
+if(pending&&d.packId&&d.packId!==pending.id)return;
 if(d.state==='success'){finish(d.message||'done');return}
-if(!pending||(d.packId&&d.packId!==pending.id))return;
+if(!pending)return;
 if(d.state==='cancelled')finish();else if(d.state==='error')finish(d.message||'fail');else{pending.ns=Date.now();status(d.message||'prep',['stop',()=>finish()]);arm()}};
 async function load(){const seq=++loadSeq;if(!packs.length)status('load');
 const ac=new AbortController(),tm=setTimeout(()=>ac.abort(),15000);

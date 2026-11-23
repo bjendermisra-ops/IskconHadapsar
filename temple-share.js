@@ -59,11 +59,13 @@
   }
   const api = {
     version:2, native, config, shareApp,
+    openSaved:()=>perform("saved-media"),
+    previewMedia:(url,title)=>perform("preview-media",{url,title}),
     shareText:(text,url='') => perform('share-text',{text,url}),
     shareImage:(url,text='') => perform('share-image',{url,text}),
     saveImage:(url,title='') => perform('save-image',{url,title}),
     download:(url,title='') => perform('download',{url,title}),
-    setWallpaper:url => perform('wallpaper',{url}),
+    setWallpaper:(url,title) => perform('wallpaper',{url,title}),
     setRingtone:(url,title='') => perform('ringtone',{url,title})
   };
   window.TempleShare = Object.freeze(api);

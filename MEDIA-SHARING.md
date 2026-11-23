@@ -21,3 +21,9 @@ Dynamic galleries can call `TempleShare.shareImage(selectedPhotoUrl, caption)` d
 Host new media on the app website for compatibility. Serve direct files with the correct image, audio or video MIME type. YouTube watch links and adaptive streaming playlists are playback links. Downloads go to **Download/ISKCON Hadapsar**. Setting a ringtone registers an audio copy in **Ringtones/ISKCON Hadapsar** and asks for Android system settings access when needed. Setting wallpaper affects the home screen. Sharing uses a temporary content URI. Website browsers use their available Web Share and file download capabilities.
 
 Supported image attachments and wallpaper inputs are JPEG, PNG, WebP and GIF (10 MiB maximum). General downloads stream up to 512 MiB. Ringtone audio streams up to 32 MiB. New pages using these actions only require a website deployment after the native update is installed.
+
+## Ringtone and wallpaper catalog
+
+Add an entry to `media/catalog.json` and upload its file. Set `kind` to `audio` or `image`, then provide `title`, `description`, and the direct `url`. Images can have a small separate `thumbnail`. Keep the media URL stable to reuse saved files. To release replacement content give the new file a versioned URL.
+
+Version 20 stores downloaded media in Download/ISKCON Hadapsar and indexes the local URI by its source URL. Preview, wallpaper and ringtone actions reuse that file. Android ringtone registration creates one local audio copy in Ringtones/ISKCON Hadapsar. Open **Saved media** from the catalog or **Saved ringtones & wallpapers** on the offline screen to use items without a connection. Android settings permission is needed to change the default ringtone.
