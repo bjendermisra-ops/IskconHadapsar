@@ -24,3 +24,9 @@ test('media actions use the selected asset on a nested page',async()=>{
   }
   await api.shareText('हरे कृष्ण');assert.equal(result().searchParams.get('text'),'हरे कृष्ण');
 });
+
+test('Evening Lotus opens its native preview route',async()=>{
+  const {api,result}=app();
+  await api.openLiveLotus();
+  assert.equal(result().pathname,'/__native_action__/live-lotus');
+});

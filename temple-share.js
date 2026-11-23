@@ -59,6 +59,7 @@
   }
   const api = {
     version:2, native, config, shareApp,
+    openLiveLotus:()=>perform("live-lotus"),
     openSaved:()=>perform("saved-media"),
     previewMedia:(url,title)=>perform("preview-media",{url,title}),
     shareText:(text,url='') => perform('share-text',{text,url}),
