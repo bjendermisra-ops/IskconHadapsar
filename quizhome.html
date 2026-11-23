@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="/temple-share.js?v=2"></script>
 <style>html{background:#fff8ee}html:has(body.dark-mode){background:#181818}</style>
 <script defer src="temple-runtime.js"></script>
     <meta charset="UTF-8">
@@ -349,7 +350,7 @@
             <!-- Premium WhatsApp Share Button with Glow & No White Screen Bug -->
             <button class="btn-premium-wa" onclick="playClick(); shareScore()">
                 <i class="fab fa-whatsapp wa-icon"></i> 
-                <span data-key="share_wa">Share on WhatsApp</span>
+                <span data-key="share_wa">Share score</span>
                 <div class="shine"></div>
             </button>
             <button class="btn-home" onclick="playClick(); goHome()"><i class="fas fa-home"></i> <span data-key="go_home">Go Home</span></button>
@@ -417,9 +418,9 @@
 
     // ================= DYNAMIC TRANSLATION DATA =================
     const uiData = {
-        en: { title: "Magic Quiz", cat_gita: "Bhagavad Gita", cat_krishna: "Krishna Leela", cat_prabhu: "Srila Prabhupada", cat_ram: "Ramayan", lets_play: "Let's Play!", score_lbl: "Score", good_job: "Awesome!", you_scored: "You Scored", poll_title: "Audience Says", hs_lbl: "High Score:", share_wa: "Share on WhatsApp", go_home: "Go Home", settings_title: "Settings", night_mode: "Night Mode", sound_fx: "Sound Effects", vibration: "Vibration", btn_close: "Close", oops: "Oops!", no_questions: "No questions added yet!", btn_ok: "OK" },
-        hi: { title: "जादुई क्विज़", cat_gita: "भगवद गीता", cat_krishna: "कृष्ण लीला", cat_prabhu: "श्रील प्रभुपाद", cat_ram: "रामायण", lets_play: "चलो खेलें!", score_lbl: "अंक", good_job: "शाबाश!", you_scored: "आपका स्कोर", poll_title: "जनता की राय", hs_lbl: "उच्च स्कोर:", share_wa: "WhatsApp पर शेयर करें", go_home: "होम पर जाएं", settings_title: "सेटिंग्स", night_mode: "नाइट मोड", sound_fx: "साउंड इफेक्ट्स", vibration: "वाइब्रेशन", btn_close: "बंद करें", oops: "उफ़!", no_questions: "अभी तक कोई प्रश्न नहीं जोड़ा गया है!", btn_ok: "ठीक है" },
-        mr: { title: "जादुई प्रश्नमंजुषा", cat_gita: "भगवद गीता", cat_krishna: "कृष्ण लीला", cat_prabhu: "श्रील प्रभुपाद", cat_ram: "रामायण", lets_play: "चला खेळूया!", score_lbl: "गुण", good_job: "मस्त खेळलात!", you_scored: "तुमचे गुण", poll_title: "प्रेक्षकांचे मत", hs_lbl: "सर्वोच्च गुण:", share_wa: "WhatsApp वर शेअर करा", go_home: "मुख्यपृष्ठ", settings_title: "सेटिंग्ज", night_mode: "नाईट मोड", sound_fx: "आवाज", vibration: "व्हायब्रेशन", btn_close: "बंद करा", oops: "अरेरे!", no_questions: "अद्याप कोणतेही प्रश्न जोडलेले नाहीत!", btn_ok: "ठीक आहे" }
+        en: { title: "Magic Quiz", cat_gita: "Bhagavad Gita", cat_krishna: "Krishna Leela", cat_prabhu: "Srila Prabhupada", cat_ram: "Ramayan", lets_play: "Let's Play!", score_lbl: "Score", good_job: "Awesome!", you_scored: "You Scored", poll_title: "Audience Says", hs_lbl: "High Score:", share_wa: "Share score", go_home: "Go Home", settings_title: "Settings", night_mode: "Night Mode", sound_fx: "Sound Effects", vibration: "Vibration", btn_close: "Close", oops: "Oops!", no_questions: "No questions added yet!", btn_ok: "OK" },
+        hi: { title: "जादुई क्विज़", cat_gita: "भगवद गीता", cat_krishna: "कृष्ण लीला", cat_prabhu: "श्रील प्रभुपाद", cat_ram: "रामायण", lets_play: "चलो खेलें!", score_lbl: "अंक", good_job: "शाबाश!", you_scored: "आपका स्कोर", poll_title: "जनता की राय", hs_lbl: "उच्च स्कोर:", share_wa: "स्कोर शेयर करें", go_home: "होम पर जाएं", settings_title: "सेटिंग्स", night_mode: "नाइट मोड", sound_fx: "साउंड इफेक्ट्स", vibration: "वाइब्रेशन", btn_close: "बंद करें", oops: "उफ़!", no_questions: "अभी तक कोई प्रश्न नहीं जोड़ा गया है!", btn_ok: "ठीक है" },
+        mr: { title: "जादुई प्रश्नमंजुषा", cat_gita: "भगवद गीता", cat_krishna: "कृष्ण लीला", cat_prabhu: "श्रील प्रभुपाद", cat_ram: "रामायण", lets_play: "चला खेळूया!", score_lbl: "गुण", good_job: "मस्त खेळलात!", you_scored: "तुमचे गुण", poll_title: "प्रेक्षकांचे मत", hs_lbl: "सर्वोच्च गुण:", share_wa: "स्कोअर शेअर करा", go_home: "मुख्यपृष्ठ", settings_title: "सेटिंग्ज", night_mode: "नाईट मोड", sound_fx: "आवाज", vibration: "व्हायब्रेशन", btn_close: "बंद करा", oops: "अरेरे!", no_questions: "अद्याप कोणतेही प्रश्न जोडलेले नाहीत!", btn_ok: "ठीक आहे" }
     };
 
     // ================= STATE MANAGEMENT =================
@@ -697,20 +698,8 @@
     }
 
     function shareScore() {
-        let text = `Hare Krishna! 🙏 I just scored *${score} points* in ISKCON Magic Quiz! 🌟\n\nCan you beat my high score of *${highScore}*?\n\nDownload the App and Play now!\n👉 https://play.google.com/store/apps/details?id=iskcon.hadapsar`;
-        let encodedText = encodeURIComponent(text);
-        let link = "whatsapp://send?text=" + encodedText;
-        
-        try {
-            let a = document.createElement('a');
-            a.href = link;
-            a.target = "_blank"; 
-            document.body.appendChild(a);
-            a.click();
-            setTimeout(() => { document.body.removeChild(a); }, 500);
-        } catch (e) {
-            window.location.href = link;
-        }
+        let text = `Hare Krishna! 🙏 I just scored *${score} points* in ISKCON Magic Quiz! 🌟\n\nCan you beat my high score of *${highScore}*?\n\nDownload the App and Play now!\n👉 ${TempleShare.config.url}`;
+        TempleShare.shareText(text);
     }
 </script>
 </body>

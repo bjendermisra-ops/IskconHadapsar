@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="hi">
 <head>
+<script src="/temple-share.js?v=2"></script>
 <script defer src="/temple-runtime.js?v=20-offline"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
@@ -375,7 +376,7 @@ $('homeBack').onclick=()=>{tick();window.location.href=CONFIG.homeUrl};
 $('themeBtn').onclick=()=>setTheme(theme==='dark'?'light':'dark');
 $('rBack').onclick=closeReader;
 $('rFav').onclick=()=>current&&toggleFav(current);
-$('rShare').onclick=()=>{const a=byId(current);if(!a)return;if(navigator.share)navigator.share({title:a.title[lang],text:prayerText(a)}).catch(()=>{});else copyText(prayerText(a)).then(ok=>toast(ok?t().copied:'—'))};
+$('rShare').onclick=()=>{const a=byId(current);if(a)TempleShare.shareText(prayerText(a));};
 $('cBtn').onclick=()=>{const a=byId(current);if(a)copyText(prayerText(a)).then(ok=>toast(ok?t().copied:'—'))};
 $('fMinus').onclick=()=>setFont(font-2);$('fPlus').onclick=()=>setFont(font+2);
 $('mBtn').onclick=()=>{showMean=!showMean;put('srkcm_aarti_mean',showMean?'1':'0');applyUI();renderReader(true)};

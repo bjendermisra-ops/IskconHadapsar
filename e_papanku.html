@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="/temple-share.js?v=2"></script>
 <style>html{background:#fff8ee}html:has(body.dark-mode){background:#181818}</style>
 <script defer src="temple-runtime.js"></script>
 <meta charset="utf-8">
@@ -114,7 +115,7 @@ const CONFIG = {
   backUrl: "/",             // used only if the page cannot go back in history
 
   // App download link (goes inside the share message)
-  appUrl: "https://iskconhadapsar.vercel.app/",
+  appUrl: TempleShare.config.url,
 
   // Temple location. Replace with the exact Google Maps share link of the temple.
   mapUrl: "https://www.google.com/maps/search/?api=1&query=Shree+Radha+Krishna+Chandra+Mandir+Hadapsar+Pune",
@@ -437,8 +438,7 @@ prepImage(); // load once at page start so the button works instantly
 
 async function doShare(){
   const text=shareText(),btn=document.getElementById("share");
-  // 1) native app hook (WebView): app receives text + image link and shares natively
-  if(typeof window.APP_SHARE==="function")return window.APP_SHARE(text,CONFIG.shareImage,CUR);
+  if(TempleShare.native)return CONFIG.shareImage ? TempleShare.shareImage(CONFIG.shareImage,text) : TempleShare.shareText(text);
   // 2) if the image is still loading, wait a moment (max ~2.5s)
   if(!SHARE_FILE&&SHARE_LOADING){
     btn.disabled=true;

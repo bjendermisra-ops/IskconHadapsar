@@ -2,9 +2,9 @@
  * Never cache APIs, credentials, donation transactions, user data or third-party responses.
  */
 'use strict';
-const VERSION = 'iskcon-v20-1';
+const VERSION = 'iskcon-v20-media2';
 const PAGES = VERSION + '-pages', ASSETS = VERSION + '-assets', CORE = VERSION + '-core';
-const CORE_FILES = ['/', '/offline.html', '/temple-runtime.js'];
+const CORE_FILES = ['/', '/offline.html', '/temple-runtime.js','/temple-share.js?v=2'];
 const DONATION = /^(?:\/)(?:dono|granth-daan|seva-|temple-development|admin|payment|login|signup|account|contact|privacy|terms)/i;
 const STATIC_ASSET = /\.(?:js|css|png|jpe?g|webp|svg|ico|woff2?)$/i;
 const PAGE = /^\/(?:[a-zA-Z0-9_-]+\.html)?$/;
@@ -65,6 +65,22 @@ self.addEventListener('fetch', event => {
   const req = event.request;
   if (req.method !== 'GET' || req.headers.has('authorization') || req.headers.has('range')) return;
   let url; try { url = new URL(req.url); } catch (_) { return; }
+  if (url.origin === self.location.origin && url.pathname === '/temple-share.js') {
+    event.respondWith((async () => {
+      const cache = await caches.open(CORE);
+      try {
+        const response = await fetch(req, {cache:'no-cache'});
+        if (!response.ok) throw Error('Share settings unavailable');
+        if (cacheable(response)) await cache.put(req,response.clone());
+        return response;
+      } catch (error) {
+        const saved = await cache.match(req);
+        if (saved) return saved;
+        throw error;
+      }
+    })());
+    return;
+  }
   if (req.mode === 'navigate' && publicPage(url)) {
     event.respondWith((async () => {
       const cache = await caches.open(PAGES);

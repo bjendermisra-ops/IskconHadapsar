@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="/temple-share.js?v=2"></script>
 <style>html{background:#fff8ee}html:has(body.dark-mode){background:#181818}</style>
 <script defer src="temple-runtime.js?v=14-routing"></script>
 <script>
@@ -847,42 +848,7 @@ document.addEventListener("DOMContentLoaded", function() {
     
     function scrollToAddress() { document.getElementById('address-section').scrollIntoView({behavior: 'smooth'}); }
 
-    function shareAppNative() {
-        var lang = localStorage.getItem('lang') || 'en';
-        var link = 'https://iskconhadapsar.vercel.app/';
-        var M = {
-            en: { msg: 'Hare Krishna! 🙏 Download the official ISKCON Hadapsar app for Live Darshan, Ekadashi alerts, Japa and Temple Programs updates:', t: 'Share App', c: 'Copy Link', ok: 'Link copied!' },
-            hi: { msg: 'हरे कृष्ण! 🙏 इस्कॉन हडपसर का आधिकारिक ऐप डाउनलोड करें - लाइव दर्शन, एकादशी अलर्ट, जप और मंदिर कार्यक्रम की जानकारी:', t: 'ऐप शेयर करें', c: 'लिंक कॉपी', ok: 'लिंक कॉपी हो गया!' },
-            mr: { msg: 'हरे कृष्ण! 🙏 इस्कॉन हडपसराचे अधिकृत ॲप डाउनलोड करा - थेट दर्शन, एकादशी अलर्ट, जप आणि मंदिर कार्यक्रमची माहिती:', t: 'ॲप शेअर करा', c: 'लिंक कॉपी', ok: 'लिंक कॉपी केला!' }
-        };
-        var m = M[lang] || M.en;
-        var text = m.msg + String.fromCharCode(10) + link;
-        var q = encodeURIComponent(text);
-        function go(u) { if (window.TempleRuntime) window.TempleRuntime.openLink(u); else window.location.href = u; }
-        function copyLink() {
-            function done() { showCustomAdAlert('Hare Krishna! 🙏', m.ok, 'fa-copy'); }
-            function fb() { var a = document.createElement('textarea'); a.value = link; a.style.cssText = 'position:fixed;opacity:0'; document.body.appendChild(a); a.select(); try { document.execCommand('copy'); done(); } catch (e) {} a.remove(); }
-            try { navigator.clipboard.writeText(link).then(done, fb); } catch (e) { fb(); }
-        }
-        function sheet() {
-            var old = document.getElementById('mandirShareSheet'); if (old) old.remove();
-            var acts = [
-                { n: 'WhatsApp', i: 'fab fa-whatsapp', c: '#25D366', f: function () { go('intent://wa.me/?text=' + q + '#Intent;scheme=https;package=com.whatsapp;S.browser_fallback_url=' + encodeURIComponent('https://wa.me/?text=' + q) + ';end'); } },
-                { n: 'Telegram', i: 'fab fa-telegram', c: '#229ED9', f: function () { go('intent://t.me/share/url?url=' + encodeURIComponent(link) + '&text=' + encodeURIComponent(m.msg) + '#Intent;scheme=https;package=org.telegram.messenger;S.browser_fallback_url=' + encodeURIComponent('https://t.me/share/url?url=' + link) + ';end'); } },
-                { n: m.c, i: 'far fa-copy', c: '#FF9933', f: copyLink }
-            ];
-            var o = document.createElement('div'); o.id = 'mandirShareSheet';
-            o.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:5000;display:flex;align-items:flex-end';
-            var h = '<div style="width:100%;background:var(--card-bg);color:var(--text-color);border-radius:24px 24px 0 0;padding:20px 18px calc(22px + env(safe-area-inset-bottom,0px));text-align:center"><div style="font-weight:800;font-size:1.05rem;margin-bottom:16px">' + m.t + '</div><div style="display:flex;justify-content:center;gap:22px">';
-            acts.forEach(function (a, i) { h += '<div data-i="' + i + '" style="width:84px;cursor:pointer"><div style="width:58px;height:58px;margin:0 auto 6px;border-radius:50%;background:' + a.c + ';color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.6rem"><i class="' + a.i + '"></i></div><div style="font-size:.74rem;font-weight:700">' + a.n + '</div></div>'; });
-            o.innerHTML = h + '</div></div>';
-            o.onclick = function (e) { var t = e.target.closest('[data-i]'); if (t) { o.remove(); acts[t.getAttribute('data-i')].f(); } else if (e.target === o) { o.remove(); } };
-            document.body.appendChild(o);
-        }
-        if (navigator.share) {
-            navigator.share({ text: text }).catch(function (e) { if (!e || e.name !== 'AbortError') sheet(); });
-        } else { sheet(); }
-    }
+    function shareAppNative() { return TempleShare.shareApp(localStorage.getItem('lang')); }
 
 </script>
 

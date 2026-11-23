@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="/temple-share.js?v=2"></script>
 <style>html{background:#fff8ee}html:has(body.dark-mode){background:#181818}</style>
 <script defer src="temple-runtime.js"></script>
     <meta charset="UTF-8">
@@ -574,24 +575,7 @@
             const titleToShare = document.getElementById('modalTitle').innerText;
             const textToShare = currentMantraTextForCopy;
 
-            // 1. Check for Sketchware Pro / Android WebView Custom JS Interfaces
-            if (typeof Android !== "undefined" && Android.shareText) {
-                Android.shareText(textToShare);
-            } else if (typeof Sketchware !== "undefined" && Sketchware.shareText) {
-                Sketchware.shareText(textToShare);
-            } 
-            // 2. Standard Web Share API (Modern WebViews support this)
-            else if (navigator.share) {
-                navigator.share({ 
-                    title: titleToShare, 
-                    text: textToShare 
-                }).catch((error) => console.log('Error sharing', error));
-            } 
-            // 3. Fallback: Direct Intent / WhatsApp URL for WebView intent capture
-            else {
-                const whatsappUrl = `whatsapp://send?text=${encodeURIComponent(textToShare)}`;
-                window.location.href = whatsappUrl;
-            }
+            TempleShare.shareText(textToShare);
         });
 
         // Devotional Canvas Background Animation

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="/temple-share.js?v=2"></script>
 <style>html{background:#fff8ee}html:has(body.dark-mode){background:#181818}</style>
 <script defer src="temple-runtime.js"></script>
     <meta charset="UTF-8">
@@ -1019,7 +1020,7 @@
         function triggerShare(name, address, mapUrl) { 
             const langData = i18n[currentLang];
             currentShareText = `${langData.shareTextGreeting} ${name}\n${langData.shareTextAddress} ${address}\n\n${langData.shareTextMap} https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapUrl)}`; 
-            document.getElementById('customShareSheet').classList.add('active'); 
+            TempleShare.shareText(currentShareText);
         }
 
         function closeShareSheet() { 

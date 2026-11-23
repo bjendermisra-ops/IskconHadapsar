@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="/temple-share.js?v=2"></script>
 <style>html{background:#fff8ee}html:has(body.dark-mode){background:#181818}</style>
 <script defer src="temple-runtime.js"></script>
 <meta charset="utf-8">
@@ -111,7 +112,7 @@ const CONFIG = {
   paranaStart: "6:45",      // parana start (AM)
   paranaEnd: "10:28",       // parana end (AM)
   backUrl: "/",
-  appUrl: "https://iskconhadapsar.vercel.app/",
+  appUrl: TempleShare.config.url,
   mapUrl: "https://www.google.com/maps/search/?api=1&query=Shree+Radha+Krishna+Chandra+Mandir+Hadapsar+Pune",
   shareImage: "",
   langKey: "lang",
@@ -433,7 +434,7 @@ prepImage();
 
 async function doShare(){
   const text=shareText(),btn=document.getElementById("share");
-  if(typeof window.APP_SHARE==="function")return window.APP_SHARE(text,CONFIG.shareImage,CUR);
+  if(TempleShare.native)return CONFIG.shareImage ? TempleShare.shareImage(CONFIG.shareImage,text) : TempleShare.shareText(text);
   if(!SHARE_FILE&&SHARE_LOADING){
     btn.disabled=true;
     await Promise.race([SHARE_LOADING,new Promise(r=>setTimeout(r,2500))]);

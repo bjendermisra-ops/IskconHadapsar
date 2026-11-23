@@ -1,4 +1,5 @@
 <!doctype html><html lang="en"><head>
+<script src="/temple-share.js?v=2"></script>
 <script defer src="/temple-runtime.js?v=20-offline"></script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#E65100"><meta http-equiv="Content-Security-Policy" content="frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'"><title>Bhakti Stickers · ISKCON Hadapsar</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&family=Poppins:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -172,7 +173,7 @@ function tab(s){savedOnly=s;$('explore').setAttribute('aria-pressed',!s);$('save
 $('q').oninput=render;$('explore').onclick=()=>tab(false);$('saved').onclick=()=>tab(true);
 $('browse').onclick=()=>{tab(false);$('categoryHeading').scrollIntoView({block:'start',behavior:'smooth'})};
 $('lang').onclick=()=>{LI=(LI+1)%3;rw.set('lang',LANGS[LI]);apply();controls();render()};
-$('share').onclick=()=>{const m=t('shareMsg')+'\nhttps://iskconhadapsar.vercel.app/';if(navigator.share)navigator.share({text:m}).catch(()=>{});else{try{navigator.clipboard.writeText(m);status('copied')}catch{status(m)}}};
+$('share').onclick=()=>TempleShare.shareApp(localStorage.getItem('lang'));
 const th=()=>{$('theme').textContent=document.body.dataset.theme==='dark'?'☀️':'🌙'};
 function syncLang(){const n=Math.max(0,LANGS.indexOf(rw.get('lang')));if(n!==LI){LI=n;apply();controls();render()}const d=rw.get('theme')==='dark'?'dark':'light';if(document.body.dataset.theme!==d){document.body.dataset.theme=d;th()}}
 document.body.dataset.theme=rw.get('theme')==='dark'?'dark':'light';th();

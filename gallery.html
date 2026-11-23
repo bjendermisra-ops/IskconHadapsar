@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="/temple-share.js?v=2"></script>
 <style>html{background:#fff8ee}html:has(body.dark-mode){background:#181818}</style>
 <script defer src="temple-runtime.js"></script>
     <meta charset="UTF-8">
@@ -122,8 +123,8 @@
             { id: "s4", imageUrl: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjTdGA5YE6KB8Vjv_NB-dvHEDho3t5JXv5Cl0V2LRW6nZrujh_kasEl4AixZ-1RyWLDiaWWDnkTgabDUTbKsfiKGTeZwras2RH5nCzo5aaL2uxB9zUyn8zWw9QRH02nOo0XBrWezCUFp-Qe_9Q3QHgYLiDsMJrW1w_hxXc28YRUMmbx-hvXm2oW-I_WoBSw/s700/1000096373.webp", category: "festival", title_en: "Govardhan Puja", darshan_date: "All Time Classic" }
         ];
 
-        window.shareToWhatsApp = function(title, url) { window.open(`https://api.whatsapp.com/send?text=${encodeURIComponent(`🙏 *Hare Krishna!*\n\nDarshan: *${title}*\n🖼️ Image: ${url}\n📲 *App:* ${APP_LINK}`)}`, '_blank'); };
-        window.shareToStatus = function(title, url) { window.location.href = `whatsapp://send?text=${encodeURIComponent(`🙏 *Hare Krishna!*\n*${title}*\n🖼️ Image: ${url}\n👇 *App:* ${APP_LINK}`)}`; };
+        window.shareToWhatsApp = (title,url) => TempleShare.shareImage(url,title+' · ISKCON Hadapsar\n'+TempleShare.config.url);
+        window.shareToStatus = window.shareToWhatsApp;
 
         let lightbox = new PhotoSwipeLightbox({ gallery: '#my-gallery', children: 'a:not(.hidden-data)', pswpModule: PhotoSwipe, bgOpacity: 0.95 });
         let customCaptionEl;
@@ -237,7 +238,7 @@
                             <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
                                 <button onclick="shareToWhatsApp('${title}', '${data.imageUrl}')" style="background:#25D366; color:#fff; border:none; padding:8px 16px; border-radius:20px; font-weight:600; font-size: 0.9rem;"><i class="fab fa-whatsapp"></i> Share</button>
                                 <button onclick="shareToStatus('${title}', '${data.imageUrl}')" style="background:#128C7E; color:#fff; border:none; padding:8px 16px; border-radius:20px; font-weight:600; font-size: 0.9rem;"><i class="fas fa-circle-notch"></i> Status</button>
-                                <a href="${data.imageUrl}" download target="_blank" style="background:transparent; border:1px solid #FF9933; color:#fff; padding:8px 16px; border-radius:20px; text-decoration:none;"><i class="fas fa-download"></i></a>
+                                <a data-temple-action="download" data-url="${data.imageUrl}" href="${data.imageUrl}" download target="_blank" style="background:transparent; border:1px solid #FF9933; color:#fff; padding:8px 16px; border-radius:20px; text-decoration:none;"><i class="fas fa-download"></i></a>
                             </div>
                         </div>`;
                     

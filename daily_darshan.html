@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<style>html{background:#fff8ee}html:has(body.dark-mode){background:#181818}</style>
+<script src="/temple-share.js?v=2"></script>
+<style>html{background:#fff8ee}html:has(body.dark-mode){background:#181818}.v-actions{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:10px}.v-actions button{font:inherit;font-size:.85rem;padding:8px 14px;min-height:44px;border:1px solid #786a56;border-radius:22px;background:#292521;color:#fff}.v-actions button:active{background:#494036}
+</style>
 <script defer src="temple-runtime.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
@@ -108,6 +110,11 @@ body { background-color:var(--bg-dark); background-image:radial-gradient(circle 
     </div>
     <div class="v-bottom">
         <div class="v-title" id="vTitle"></div>
+        <div class="v-actions">
+          <button type="button" data-i18n="share" id="vShare">Share</button>
+          <button type="button" data-i18n="download" id="vSave">Download</button>
+          <button type="button" data-i18n="wallpaper" id="vWallpaper">Set wallpaper</button>
+        </div>
 
     </div>
 </div>
@@ -126,9 +133,9 @@ try { localStorage.removeItem('iskcon_darshan_cache_v2'); } catch(e) {}
 
 /* ---------- i18n ---------- */
 const I18N = {
-  en: { hdr:'Divine Gallery', loading:'Loading Darshan...', fAll:'All Darshan', fDaily:'Daily Darshan', fFest:'Festivals', fEvent:'Events', empty:'No Darshan Found.', share:'Share', download:'Download', darshan:'Darshan', preparing:'Preparing image...', sharedTxt:'Opening share...', dlStart:'Downloading...', dlFail:'Download not supported here. Opening image.', shareFallback:'Sharing text with app link' },
-  hi: { hdr:'दिव्य गैलरी', loading:'दर्शन लोड हो रहे हैं...', fAll:'सभी दर्शन', fDaily:'दैनिक दर्शन', fFest:'त्योहार', fEvent:'कार्यक्रम', empty:'कोई दर्शन नहीं मिला।', share:'शेयर', download:'डाउनलोड', darshan:'दर्शन', preparing:'फोटो तैयार हो रही है...', sharedTxt:'शेयर खुल रहा है...', dlStart:'डाउनलोड हो रहा है...', dlFail:'यहाँ डाउनलोड सपोर्टेड नहीं है। फोटो खोल रहे हैं।', shareFallback:'ऐप लिंक के साथ टेक्स्ट शेयर हो रहा है' },
-  mr: { hdr:'दिव्य गॅलरी', loading:'दर्शन लोड होत आहे...', fAll:'सर्व दर्शन', fDaily:'दैनिक दर्शन', fFest:'सण', fEvent:'कार्यक्रम', empty:'दर्शन सापडले नाही.', share:'शेअर', download:'डाउनलोड', darshan:'दर्शन', preparing:'फोटो तयार होत आहे...', sharedTxt:'शेअर उघडत आहे...', dlStart:'डाउनलोड होत आहे...', dlFail:'येथे डाउनलोड समर्थित नाही. फोटो उघडत आहे.', shareFallback:'ॲप लिंकसह मजकूर शेअर होत आहे' }
+  en: { wallpaper:'Set wallpaper', hdr:'Divine Gallery', loading:'Loading Darshan...', fAll:'All Darshan', fDaily:'Daily Darshan', fFest:'Festivals', fEvent:'Events', empty:'No Darshan Found.', share:'Share', download:'Download', darshan:'Darshan', preparing:'Preparing image...', sharedTxt:'Opening share...', dlStart:'Downloading...', dlFail:'Download not supported here. Opening image.', shareFallback:'Sharing text with app link' },
+  hi: { wallpaper:'वॉलपेपर लगाएँ', hdr:'दिव्य गैलरी', loading:'दर्शन लोड हो रहे हैं...', fAll:'सभी दर्शन', fDaily:'दैनिक दर्शन', fFest:'त्योहार', fEvent:'कार्यक्रम', empty:'कोई दर्शन नहीं मिला।', share:'शेयर', download:'डाउनलोड', darshan:'दर्शन', preparing:'फोटो तैयार हो रही है...', sharedTxt:'शेयर खुल रहा है...', dlStart:'डाउनलोड हो रहा है...', dlFail:'यहाँ डाउनलोड सपोर्टेड नहीं है। फोटो खोल रहे हैं।', shareFallback:'ऐप लिंक के साथ टेक्स्ट शेयर हो रहा है' },
+  mr: { wallpaper:'वॉलपेपर लावा', hdr:'दिव्य गॅलरी', loading:'दर्शन लोड होत आहे...', fAll:'सर्व दर्शन', fDaily:'दैनिक दर्शन', fFest:'सण', fEvent:'कार्यक्रम', empty:'दर्शन सापडले नाही.', share:'शेअर', download:'डाउनलोड', darshan:'दर्शन', preparing:'फोटो तयार होत आहे...', sharedTxt:'शेअर उघडत आहे...', dlStart:'डाउनलोड होत आहे...', dlFail:'येथे डाउनलोड समर्थित नाही. फोटो उघडत आहे.', shareFallback:'ॲप लिंकसह मजकूर शेअर होत आहे' }
 };
 
 const getLang = () => { const l = localStorage.getItem('lang'); return I18N[l] ? l : 'en'; };
@@ -238,7 +245,7 @@ function renderNextChunk() {
 
     const wm = document.createElement('div');
     wm.className = 'watermark-overlay';
-    wm.innerHTML = 'SRI SRI<br>RADHA KRISHNA CHANDRA';
+    wm.innerHTML = 'ISKCON<br>HADAPSAR';
 
     const img = document.createElement('img');
     img.alt = 'Darshan';
@@ -337,6 +344,9 @@ function closeViewer(fromPop) {
 }
 window.addEventListener('popstate', () => { if (viewerOpen) closeViewer(true); });
 
+document.getElementById('vShare').onclick = () => TempleShare.shareImage(viewList[cur].imageUrl,titleOf(viewList[cur])+' · ISKCON Hadapsar');
+document.getElementById('vSave').onclick = () => TempleShare.saveImage(viewList[cur].imageUrl,titleOf(viewList[cur]));
+document.getElementById('vWallpaper').onclick = () => TempleShare.setWallpaper(viewList[cur].imageUrl);
 document.getElementById('vClose').onclick = () => closeViewer();
 document.getElementById('vPrev').onclick = e => { e.stopPropagation(); showImage(cur - 1); };
 document.getElementById('vNext').onclick = e => { e.stopPropagation(); showImage(cur + 1); };

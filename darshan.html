@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
+<script src="/temple-share.js?v=2"></script>
 <style>html{background:#fff8ee}html:has(body.dark-mode){background:#181818}</style>
 <script defer src="temple-runtime.js"></script>
 <meta charset="UTF-8">
@@ -782,17 +783,8 @@ function wakeOn() {
 function wakeOff() { try { if (S.wake) S.wake.release(); } catch (e) {} S.wake = null; }
 
 /* ═══════════ शेयर / कॉपी ═══════════ */
-function getShareLink() {
-  try {
-    var b = bridge();
-    if (b && typeof b.getPackageName === 'function') {
-      var pk = b.getPackageName();
-      if (pk) return 'https://play.google.com/store/apps/details?id=' + pk;
-    }
-  } catch (e) {}
-  return CFG.FALLBACK_SHARE_LINK;
-}
-function openShare() { $('share-link-input').value = getShareLink(); $('share-overlay').classList.add('show'); }
+function getShareLink() { return TempleShare.config.url; }
+function openShare() { if(TempleShare.native){TempleShare.shareText('ISKCON Hadapsar · Live Darshan',getShareLink());return;} $('share-link-input').value = getShareLink(); $('share-overlay').classList.add('show'); }
 function closeShare() { $('share-overlay').classList.remove('show'); }
 
 function shareWhatsApp() {

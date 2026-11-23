@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
+<script src="/temple-share.js?v=2"></script>
 <script defer src="/temple-runtime.js?v=20-offline"></script>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover"/>
@@ -428,14 +429,14 @@ body.col-2 .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
   </div>
 </div>
 
-<script src="temple-share.js"></script>
+
 
 <script>
 /* ═════════════════════════════════════════════════════════
    COMPLETE VIDEO LIST (AUTHENTIC YOUTUBE IDS - ZERO DUPLICATES)
 ═════════════════════════════════════════════════════════ */
 const HOME_URL=''; 
-const BHAKTI_APP_URL='https://iskconhadapsar.vercel.app/';
+const BHAKTI_APP_URL=TempleShare.config.url;
 const WHO={P:'श्रील प्रभुपाद',L:'HH लोकनाथ स्वामी महाराज'};
 
 const D=[
@@ -1324,7 +1325,7 @@ $('shareWa').addEventListener('click',()=>{
 $('shareNative').addEventListener('click',()=>{
   const txt=getShareText();
   if(window.TempleShare&&typeof TempleShare.shareText==='function'){
-    TempleShare.shareText(txt,BHAKTI_APP_URL);
+    if(cv) TempleShare.shareImage(thumb(cv.id),txt); else TempleShare.shareText(txt);
     $('shareModal').classList.remove('open');
     return;
   }

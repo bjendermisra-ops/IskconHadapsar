@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="/temple-share.js?v=2"></script>
 <style>html{background:#fff8ee}html:has(body.dark-mode){background:#181818}</style>
 <script defer src="temple-runtime.js"></script>
     <meta charset="UTF-8">
@@ -528,16 +529,7 @@
     function scrollToAddress() { document.getElementById('address-section').scrollIntoView({behavior: 'smooth'}); }
 
     // 🔥 Dynamic Multilingual Share Trigger Function 🔥
-    function shareAppNative() {
-        const lang = localStorage.getItem('lang') || 'en';
-        if (window.AndroidInterface && typeof window.AndroidInterface.shareApp === 'function') {
-            window.AndroidInterface.shareApp(lang);
-        } else if (window.AndroidBridge && typeof window.AndroidBridge.shareApp === 'function') {
-            window.AndroidBridge.shareApp(lang);
-        } else {
-            window.location.href = `https://action_share?lang=${lang}`;
-        }
-    }
+    function shareAppNative() { return TempleShare.shareApp(localStorage.getItem('lang')); }
 
     // ==========================================
 </script>
