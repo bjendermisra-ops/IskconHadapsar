@@ -1,6 +1,79 @@
 [
- {"kind":"audio","title":"Morning bells","description":"A gentle, eight-note temple chime","url":"/media/morning-bells.mp3","thumbnail":"/media/bells-cover.webp"},
- {"kind":"audio","title":"Evening flute","description":"A short, soft flute melody","url":"/media/evening-flute.mp3","thumbnail":"/media/flute-cover.webp"},
- {"kind":"image","title":"Midnight lotus","description":"ISKCON Hadapsar • Dark wallpaper","url":"/media/midnight-lotus.webp","thumbnail":"/media/midnight-lotus-thumb.webp"},
- {"kind":"image","title":"Little Krishna","description":"A colourful portrait for your phone","url":"/krishna.webp","thumbnail":"/media/little-krishna-thumb.webp"}
+  {
+    "kind": "audio",
+    "title": "Morning bells",
+    "description": "A gentle, eight-note temple chime",
+    "url": "/media/morning-bells.mp3",
+    "thumbnail": "/media/bells-cover.webp"
+  },
+  {
+    "kind": "audio",
+    "title": "Evening flute",
+    "description": "A short, soft flute melody",
+    "url": "/media/evening-flute.mp3",
+    "thumbnail": "/media/flute-cover.webp"
+  },
+  {
+    "kind": "image",
+    "title": "Midnight lotus",
+    "description": "ISKCON Hadapsar • Dark wallpaper",
+    "url": "/media/midnight-lotus.webp",
+    "thumbnail": "/media/midnight-lotus-thumb.webp"
+  },
+  {
+    "kind": "image",
+    "title": "Little Krishna",
+    "description": "A colourful portrait for your phone",
+    "url": "/krishna.webp",
+    "thumbnail": "/media/little-krishna-thumb.webp"
+  },
+  {
+    "kind": "image",
+    "title": "Divine Flute of Krishna",
+    "description": "Royal blue attire • Aarti darshan",
+    "url": "/media/krishna-divine-flute.webp",
+    "thumbnail": "/media/krishna-divine-flute-thumb.webp"
+  },
+  {
+    "kind": "image",
+    "title": "Radha Krishna Aarti",
+    "description": "Golden altar • Divine darshan",
+    "url": "/media/radha-krishna-aarti.webp",
+    "thumbnail": "/media/radha-krishna-aarti-thumb.webp"
+  },
+  {
+    "kind": "image",
+    "title": "Sacred Tulasi Morning",
+    "description": "Peaceful sunrise • Temple courtyard",
+    "url": "/media/tulasi-morning.webp",
+    "thumbnail": "/media/tulasi-morning-thumb.webp"
+  },
+  {
+    "kind": "image",
+    "title": "Shyamasundara Darshan",
+    "description": "Dark devotional portrait • Floral decoration",
+    "url": "/media/shyamasundara-darshan.webp",
+    "thumbnail": "/media/shyamasundara-darshan-thumb.webp"
+  },
+  {
+    "kind": "image",
+    "title": "Divine Radha Krishna",
+    "description": "Devotional artwork • Lotus and peacock feathers",
+    "url": "/media/radha-krishna-divine-art.webp",
+    "thumbnail": "/media/radha-krishna-divine-art-thumb.webp"
+  },
+  {
+    "kind": "image",
+    "title": "Sri Gaura Nitai",
+    "description": "Sankirtan • Chant and be happy",
+    "url": "/media/gaura-nitai-sankirtan.webp",
+    "thumbnail": "/media/gaura-nitai-sankirtan-thumb.webp"
+  },
+  {
+    "kind": "image",
+    "title": "Gaura Nitai in the Garden",
+    "description": "Joyful devotion • Love and happiness",
+    "url": "/media/gaura-nitai-swing.webp",
+    "thumbnail": "/media/gaura-nitai-swing-thumb.webp"
+  }
 ]
