@@ -75,5 +75,53 @@
     "description": "Joyful devotion • Love and happiness",
     "url": "/media/gaura-nitai-swing.webp",
     "thumbnail": "/media/gaura-nitai-swing-thumb.webp"
+  },
+  {
+    "kind": "audio",
+    "title": "Hare Rama Krishna — Meditation",
+    "description": "Hare Rama Krishna mantra • Meditation edition",
+    "url": "/media/hare-rama-krishna-meditation.mp3",
+    "thumbnail": "/media/hare-rama-krishna-meditation-cover.webp",
+    "durationSeconds": 21
+  },
+  {
+    "kind": "audio",
+    "title": "Hare Rama Hare Krishna — Lo-fi",
+    "description": "Hare Rama Hare Krishna mantra • Lo-fi edition",
+    "url": "/media/hare-krishna-lofi.mp3",
+    "thumbnail": "/media/hare-krishna-lofi-cover.webp",
+    "durationSeconds": 31
+  },
+  {
+    "kind": "audio",
+    "title": "Hare Krishna — Bhajan",
+    "description": "Hare Krishna mantra • Bhajan edition",
+    "url": "/media/hare-krishna-bhajan.mp3",
+    "thumbnail": "/media/hare-krishna-bhajan-cover.webp",
+    "durationSeconds": 16
+  },
+  {
+    "kind": "audio",
+    "title": "Hare Krishna Hare Rama",
+    "description": "Maha mantra • 30-second ringtone",
+    "url": "/media/hare-krishna-hare-rama.mp3",
+    "thumbnail": "/media/hare-krishna-hare-rama-cover.webp",
+    "durationSeconds": 30
+  },
+  {
+    "kind": "audio",
+    "title": "Hare Krishna — Bhakti",
+    "description": "Hare Krishna mantra • Bhakti edition",
+    "url": "/media/hare-krishna-bhakti.mp3",
+    "thumbnail": "/media/hare-krishna-bhakti-cover.webp",
+    "durationSeconds": 13
+  },
+  {
+    "kind": "audio",
+    "title": "Hare Krishna — 19-second Edition",
+    "description": "Hare Krishna mantra • Short ringtone",
+    "url": "/media/hare-krishna-ringtone.mp3",
+    "thumbnail": "/media/hare-krishna-ringtone-cover.webp",
+    "durationSeconds": 19
   }
 ]
