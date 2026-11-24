@@ -28,7 +28,8 @@ jobs:
           catalog=root/"catalog.json"
           items=json.loads(catalog.read_text())
           for slug,title,description,source,checksum,cover,colour,duration in rows:
-              data=urllib.request.urlopen("https://d2ol7oe51mr4n9.cloudfront.net/user_3MOwHGASMZSJ85CC77e8MgccK7g/"+source+".mp3",timeout=60).read()
+              print("Importing",slug,flush=True)
+              data=subprocess.check_output(["curl","-fLsS","--retry","4","--retry-all-errors","--max-time","60","https://d2ol7oe51mr4n9.cloudfront.net/user_3MOwHGASMZSJ85CC77e8MgccK7g/"+source+".mp3"])
               assert hashlib.sha256(data).hexdigest()==checksum,slug
               audio=root/(slug+".mp3")
               audio.write_bytes(data)
