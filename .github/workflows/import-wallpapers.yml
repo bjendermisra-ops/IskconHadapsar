@@ -1,0 +1,50 @@
+name: Import supplied devotional wallpapers
+on:
+  push:
+    branches: [wallpaper-import-20261124]
+    paths: ['.github/workflows/import-wallpapers.yml']
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install Pillow
+      - name: Validate source images and prepare catalog
+        run: |
+          python - <<'PY'
+          import json, io, hashlib, urllib.request
+          from pathlib import Path
+          from PIL import Image, ImageOps, ImageFilter
+          rows = [["krishna-divine-flute","Divine Flute of Krishna","Royal blue attire • Aarti darshan","434d4df3-47b0-4412-91e4-1918b273a245.png","de021b26fc829b884defb154a21004a16eef2f17f989f304ddb748d49915fa08"],["radha-krishna-aarti","Radha Krishna Aarti","Golden altar • Divine darshan","51f2df58-b9e1-47f5-ba64-48d2f4850372.png","ca4545b41d403733e13f6b1c450b2b00d198f3d9c715c67be99143e031877aad"],["tulasi-morning","Sacred Tulasi Morning","Peaceful sunrise • Temple courtyard","cd5e2cf9-b0f3-4147-a137-e2d871b3c7d4.png","03010d3f8b719209fca942c75990c249ae3c228bc87604be46cc1b5926271585"],["shyamasundara-darshan","Shyamasundara Darshan","Dark devotional portrait • Floral decoration","42b8166e-00f9-4b0b-840e-86796ec91e23.webp","9258c40b1aae433c3b241bda43885874b7c1aaabcb189d6fdd93a79056e296fa"],["radha-krishna-divine-art","Divine Radha Krishna","Devotional artwork • Lotus and peacock feathers","b3d8d3e8-461a-43db-91a4-2414e822e0cf.webp","81b2b5bd70e613d65691655bf2b1ce3d6d0e26d0029c20f7c4c3c806bdec8c97"],["gaura-nitai-sankirtan","Sri Gaura Nitai","Sankirtan • Chant and be happy","c337f187-3bb3-44c0-afb8-650780bcfd81.webp","b91fa05001ecd93f7de3d20fb52322f34f96d201c9c61cb677f8bc57ab54e87d"],["gaura-nitai-swing","Gaura Nitai in the Garden","Joyful devotion • Love and happiness","7ced0b4c-a765-44f3-a910-d96f02b8f668.webp","d55e3aab67899fef57575dc9d4ec9520a24164ce053cdc21554aea103abc9dd1"]]
+          root = Path("media")
+          catalog = root / "catalog.json"
+          items = json.loads(catalog.read_text())
+          for slug, title, description, source, checksum in rows:
+              data = urllib.request.urlopen("https://d2ol7oe51mr4n9.cloudfront.net/user_3MOwHGASMZSJ85CC77e8MgccK7g/"+source, timeout=60).read()
+              assert hashlib.sha256(data).hexdigest() == checksum, slug
+              im = ImageOps.exif_transpose(Image.open(io.BytesIO(data))).convert("RGB")
+              im = ImageOps.fit(im, (1080,1920), Image.Resampling.LANCZOS)
+              im = im.filter(ImageFilter.UnsharpMask(radius=1.2, percent=45, threshold=3))
+              im.save(root / (slug+".webp"), "WEBP", quality=95, method=6)
+              im.resize((360,640), Image.Resampling.LANCZOS).save(root / (slug+"-thumb.webp"), "WEBP", quality=83, method=6)
+              url = "/media/"+slug+".webp"
+              if not any(item.get("url")==url for item in items):
+                  items.append(dict(kind="image",title=title,description=description,url=url,thumbnail="/media/"+slug+"-thumb.webp"))
+          catalog.write_text(json.dumps(items,ensure_ascii=False,indent=2)+"\n")
+          print("Verified and prepared", len(rows), "wallpapers")
+          
+          PY
+      - name: Publish verified wallpaper assets and catalog
+        run: |
+          git config user.name 'wallpaper-import-bot'
+          git config user.email 'wallpaper-import-bot@users.noreply.github.com'
+          git add media/
+          git commit -m 'Add seven supplied HD devotional wallpapers and thumbnails'
+          git push origin HEAD:main
