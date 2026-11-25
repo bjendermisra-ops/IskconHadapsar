@@ -1,0 +1,60 @@
+name: Import five devotional ringtones
+on:
+  push:
+    branches: [media-batch2-20261125]
+    paths: ['.github/workflows/media-batch2.yml']
+permissions:
+  contents: write
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install Pillow mutagen
+      - name: Validate original MP3s and optimize custom covers
+        run: |
+          python - <<'PY'
+          import json, io, subprocess
+          from pathlib import Path
+          from PIL import Image, ImageOps
+          from mutagen.mp3 import MP3
+          rows = [["nitai-hai-dhun","Nitai Hai Dhun","Jai Nityanand • Nityananda Trayodashi","490c6f37-35eb-470d-b559-6d1274b4e6ff",122661,"d8688dd4-062f-4253-9137-53fd28bc8e59",2814786],["shiv-parvati-bhakti","Shiv Parvati Bhakti","Parvati and Shiv • Devotional ringtone","72560e19-06f1-4095-9059-06ee722a68ee",240931,"35c02fa4-1ab1-415b-9604-91a02a80dff4",2959011],["ram-siya-ram","Ram Siya Ram","Sri Rama and Sita • Devotional mantra","d9f2c0c6-a616-464b-964f-13b9e0e6eb53",114197,"e5b96f47-6529-4e47-98bc-60758c6e600d",2850607],["shambhu-stuti","Shambhu Stuti","Namami Devam • Mahadev ringtone","d60bbabe-7728-4901-afe9-05fe79c68486",202164,"a121b79b-9550-4fa1-90ca-8fccfa96bf29",2715085],["shree-vishnu-dhyanam","Shree Vishnu Dhyanam","Sri Vishnu • Dhyanam mantra","74cd8da2-4bc3-460e-aead-c543d4e1095d",474045,"6ddb4acb-1561-4f95-9fa4-5ba568060d12",3009408]]
+          root = Path("media")
+          catalog = root/"catalog.json"
+          items = json.loads(catalog.read_text())
+          base = "https://d2ol7oe51mr4n9.cloudfront.net/user_3MOwHGASMZSJ85CC77e8MgccK7g/"
+          def fetch(id, ext, size):
+              data = subprocess.check_output(["curl","-fLsS","--retry","3","--retry-all-errors","--max-time","60",base+id+ext])
+              assert len(data)==size,(id,len(data),size)
+              return data
+          for slug,title,description,aid,asz,iid,isz in rows:
+              print("Importing",slug,flush=True)
+              audio=root/(slug+".mp3")
+              audio.write_bytes(fetch(aid,".mp3",asz))
+              duration=round(MP3(audio).info.length)
+              assert 1<=duration<=120
+              im=ImageOps.exif_transpose(Image.open(io.BytesIO(fetch(iid,".png",isz)))).convert("RGB")
+              im=ImageOps.fit(im,(512,512),Image.Resampling.LANCZOS)
+              im.save(root/(slug+"-cover.webp"),"WEBP",quality=90,method=6)
+              item=dict(kind="audio",title=title,description=description,url="/media/"+slug+".mp3",thumbnail="/media/"+slug+"-cover.webp",durationSeconds=duration)
+              items=[i for i in items if i.get("url")!=item["url"]]
+              items.append(item)
+          for item in items:
+              for key in ("url","thumbnail"):
+                  assert Path(item[key].lstrip("/")).is_file(),item[key]
+          catalog.write_text(json.dumps(items,ensure_ascii=False,indent=2)+"\n")
+          print("Verified", len(rows), "new MP3s and custom artwork; total",sum(i["kind"]=="audio" for i in items),"ringtones")
+          
+          PY
+      - name: Commit verified media assets to main
+        run: |
+          git config user.name 'media-refresh-bot'
+          git config user.email 'media-refresh-bot@users.noreply.github.com'
+          git add media/
+          git commit -m 'Add Nitai, Shiv Parvati, Ram Siya Ram, Shambhu Stuti and Vishnu Dhyanam ringtones'
+          git push origin HEAD:main
