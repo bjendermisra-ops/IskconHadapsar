@@ -3,6 +3,46 @@
 <style>html{background:#fff8ee}html:has(body.dark-mode){background:#181818}</style>
 <script defer src="temple-runtime.js"></script>
 <meta charset="UTF-8">
+<!-- Hadapsar app interaction policy v1: native-style non-editable surfaces -->
+<style id="hadapsar-app-interaction-style">
+html.hadapsar-app-interaction body,
+html.hadapsar-app-interaction body * {
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+}
+html.hadapsar-app-interaction body :is(input,textarea,[contenteditable]:not([contenteditable="false"]),[data-allow-selection]),
+html.hadapsar-app-interaction body :is([contenteditable]:not([contenteditable="false"]),[data-allow-selection]) * {
+  -webkit-user-select: text !important;
+  user-select: text !important;
+  -webkit-touch-callout: default !important;
+}
+html.hadapsar-app-interaction img,
+html.hadapsar-app-interaction a { -webkit-user-drag: none; }
+</style>
+<script id="hadapsar-app-interaction-script">
+(function(){
+  'use strict';
+  if(window.HadapsarAppInteraction) return;
+  var isApp=location.hostname==='iskconhadapsar.vercel.app' ||
+    /Hadapsar(?:Media|Offline|Lotus)\/\d+\b/i.test(navigator.userAgent) ||
+    !!(window.AndroidBridge || window.AndroidInterface);
+  if(!isApp) return;
+  window.HadapsarAppInteraction=true;
+  document.documentElement.classList.add('hadapsar-app-interaction');
+  function editable(target){
+    if(!target) return false;
+    var el=target.nodeType===1?target:target.parentElement;
+    return !!(el && (el.isContentEditable ||
+      (el.closest && el.closest('input,textarea,select,[data-allow-selection]'))));
+  }
+  function suppress(event){if(!editable(event.target)) event.preventDefault();}
+  document.addEventListener('contextmenu',suppress,true);
+  document.addEventListener('selectstart',suppress,true);
+  document.addEventListener('dragstart',suppress,true);
+})();
+</script>
+
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
 <meta name="theme-color" content="#00695C">
 <title>Courses & Training</title>

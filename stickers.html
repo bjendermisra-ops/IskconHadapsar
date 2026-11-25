@@ -1,6 +1,46 @@
 <!doctype html><html lang="en"><head>
 <script src="/temple-share.js?v=2"></script>
-<script defer src="/temple-runtime.js?v=20-offline"></script><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#E65100"><meta http-equiv="Content-Security-Policy" content="frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'"><title>Bhakti Stickers · ISKCON Hadapsar</title>
+<script defer src="/temple-runtime.js?v=20-offline"></script><meta charset="utf-8">
+<!-- Hadapsar app interaction policy v1: native-style non-editable surfaces -->
+<style id="hadapsar-app-interaction-style">
+html.hadapsar-app-interaction body,
+html.hadapsar-app-interaction body * {
+  -webkit-user-select: none !important;
+  user-select: none !important;
+  -webkit-touch-callout: none !important;
+}
+html.hadapsar-app-interaction body :is(input,textarea,[contenteditable]:not([contenteditable="false"]),[data-allow-selection]),
+html.hadapsar-app-interaction body :is([contenteditable]:not([contenteditable="false"]),[data-allow-selection]) * {
+  -webkit-user-select: text !important;
+  user-select: text !important;
+  -webkit-touch-callout: default !important;
+}
+html.hadapsar-app-interaction img,
+html.hadapsar-app-interaction a { -webkit-user-drag: none; }
+</style>
+<script id="hadapsar-app-interaction-script">
+(function(){
+  'use strict';
+  if(window.HadapsarAppInteraction) return;
+  var isApp=location.hostname==='iskconhadapsar.vercel.app' ||
+    /Hadapsar(?:Media|Offline|Lotus)\/\d+\b/i.test(navigator.userAgent) ||
+    !!(window.AndroidBridge || window.AndroidInterface);
+  if(!isApp) return;
+  window.HadapsarAppInteraction=true;
+  document.documentElement.classList.add('hadapsar-app-interaction');
+  function editable(target){
+    if(!target) return false;
+    var el=target.nodeType===1?target:target.parentElement;
+    return !!(el && (el.isContentEditable ||
+      (el.closest && el.closest('input,textarea,select,[data-allow-selection]'))));
+  }
+  function suppress(event){if(!editable(event.target)) event.preventDefault();}
+  document.addEventListener('contextmenu',suppress,true);
+  document.addEventListener('selectstart',suppress,true);
+  document.addEventListener('dragstart',suppress,true);
+})();
+</script>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#E65100"><meta http-equiv="Content-Security-Policy" content="frame-src 'none'; object-src 'none'; base-uri 'self'; form-action 'self'"><title>Bhakti Stickers · ISKCON Hadapsar</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&family=Poppins:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{--primary:#FF9933;--pd:#E65100;--bg:#FFF8EE;--card:#fff;--ink:#2b2b2b;--mu:#6b625a;--line:rgba(150,150,150,.22);--soft:#fff3e0;--wa:#128C7E;--wa2:#25D366;--chat:#ECE5DD}
