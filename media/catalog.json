@@ -123,5 +123,45 @@
     "url": "/media/hare-krishna-ringtone.mp3",
     "thumbnail": "/media/hare-krishna-ringtone-cover.webp",
     "durationSeconds": 19
+  },
+  {
+    "kind": "audio",
+    "title": "Nitai Hai Dhun",
+    "description": "Jai Nityanand • Nityananda Trayodashi",
+    "url": "/media/nitai-hai-dhun.mp3",
+    "thumbnail": "/media/nitai-hai-dhun-cover.webp",
+    "durationSeconds": 8
+  },
+  {
+    "kind": "audio",
+    "title": "Shiv Parvati Bhakti",
+    "description": "Parvati and Shiv • Devotional ringtone",
+    "url": "/media/shiv-parvati-bhakti.mp3",
+    "thumbnail": "/media/shiv-parvati-bhakti-cover.webp",
+    "durationSeconds": 15
+  },
+  {
+    "kind": "audio",
+    "title": "Ram Siya Ram",
+    "description": "Sri Rama and Sita • Devotional mantra",
+    "url": "/media/ram-siya-ram.mp3",
+    "thumbnail": "/media/ram-siya-ram-cover.webp",
+    "durationSeconds": 7
+  },
+  {
+    "kind": "audio",
+    "title": "Shambhu Stuti",
+    "description": "Namami Devam • Mahadev ringtone",
+    "url": "/media/shambhu-stuti.mp3",
+    "thumbnail": "/media/shambhu-stuti-cover.webp",
+    "durationSeconds": 13
+  },
+  {
+    "kind": "audio",
+    "title": "Shree Vishnu Dhyanam",
+    "description": "Sri Vishnu • Dhyanam mantra",
+    "url": "/media/shree-vishnu-dhyanam.mp3",
+    "thumbnail": "/media/shree-vishnu-dhyanam-cover.webp",
+    "durationSeconds": 30
   }
 ]
