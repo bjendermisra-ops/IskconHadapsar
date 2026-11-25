@@ -1,0 +1,69 @@
+name: Apply app-wide native interaction policy
+on:
+  push:
+    branches: [app-interaction-20261125]
+    paths: ['.github/workflows/app-interaction.yml']
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Apply and verify selection guard
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import subprocess, re
+          patch = "\n<!-- Hadapsar app interaction policy v1: native-style non-editable surfaces -->\n<style id=\"hadapsar-app-interaction-style\">\nhtml.hadapsar-app-interaction body,\nhtml.hadapsar-app-interaction body * {\n  -webkit-user-select: none !important;\n  user-select: none !important;\n  -webkit-touch-callout: none !important;\n}\nhtml.hadapsar-app-interaction body :is(input,textarea,[contenteditable]:not([contenteditable=\"false\"]),[data-allow-selection]),\nhtml.hadapsar-app-interaction body :is([contenteditable]:not([contenteditable=\"false\"]),[data-allow-selection]) * {\n  -webkit-user-select: text !important;\n  user-select: text !important;\n  -webkit-touch-callout: default !important;\n}\nhtml.hadapsar-app-interaction img,\nhtml.hadapsar-app-interaction a { -webkit-user-drag: none; }\n</style>\n<script id=\"hadapsar-app-interaction-script\">\n(function(){\n  'use strict';\n  if(window.HadapsarAppInteraction) return;\n  var isApp=location.hostname==='iskconhadapsar.vercel.app' ||\n    /Hadapsar(?:Media|Offline|Lotus)\\/\\d+\\b/i.test(navigator.userAgent) ||\n    !!(window.AndroidBridge || window.AndroidInterface);\n  if(!isApp) return;\n  window.HadapsarAppInteraction=true;\n  document.documentElement.classList.add('hadapsar-app-interaction');\n  function editable(target){\n    if(!target) return false;\n    var el=target.nodeType===1?target:target.parentElement;\n    return !!(el && (el.isContentEditable ||\n      (el.closest && el.closest('input,textarea,select,[data-allow-selection]'))));\n  }\n  function suppress(event){if(!editable(event.target)) event.preventDefault();}\n  document.addEventListener('contextmenu',suppress,true);\n  document.addEventListener('selectstart',suppress,true);\n  document.addEventListener('dragstart',suppress,true);\n})();\n</script>\n"
+          paths = subprocess.check_output(["git","ls-files","-z","--","*.html"]).decode().split("\0")
+          changed=[]
+          for name in paths:
+              if not name: continue
+              p=Path(name)
+              original=p.read_bytes()
+              s=original.decode("utf-8")
+              if 'id="hadapsar-app-interaction-script"' in s: continue
+              head=re.search(r'<head\b[^>]*>',s,re.I)
+              if head:
+                  idx=head.end()
+              else:
+                  # Do not alter short redirect documents or HTML fragments.
+                  print("No explicit head; skipped",name)
+                  continue
+              # Insert after charset declaration when present near the beginning of head.
+              charset=re.search(r'<meta\b[^>]*charset[^>]*>',s[idx:idx+1200],re.I)
+              if charset: idx+=charset.end()
+              edited=s[:idx]+patch+s[idx:]
+              assert edited[:idx]+edited[idx+len(patch):]==s
+              p.write_bytes(edited.encode("utf-8"))
+              changed.append(name)
+          assert "media.html" in changed and "index.html" in changed
+          print("Patched",len(changed),"HTML documents:",", ".join(changed))
+          Path("/tmp/interaction-test.js").write_text("\n(function(){\n  'use strict';\n  if(window.HadapsarAppInteraction) return;\n  var isApp=location.hostname==='iskconhadapsar.vercel.app' ||\n    /Hadapsar(?:Media|Offline|Lotus)\\/\\d+\\b/i.test(navigator.userAgent) ||\n    !!(window.AndroidBridge || window.AndroidInterface);\n  if(!isApp) return;\n  window.HadapsarAppInteraction=true;\n  document.documentElement.classList.add('hadapsar-app-interaction');\n  function editable(target){\n    if(!target) return false;\n    var el=target.nodeType===1?target:target.parentElement;\n    return !!(el && (el.isContentEditable ||\n      (el.closest && el.closest('input,textarea,select,[data-allow-selection]'))));\n  }\n  function suppress(event){if(!editable(event.target)) event.preventDefault();}\n  document.addEventListener('contextmenu',suppress,true);\n  document.addEventListener('selectstart',suppress,true);\n  document.addEventListener('dragstart',suppress,true);\n})();\n")
+          
+          PY
+          cat > /tmp/verify-interaction.js <<'JS'
+          const vm=require('vm'),assert=require('assert'),fs=require('fs');
+          const code=fs.readFileSync('/tmp/interaction-test.js','utf8');
+          function run(host,ua){const events={},classes=[],doc={documentElement:{classList:{add:x=>classes.push(x)}},addEventListener:(k,fn)=>events[k]=fn};const w={};vm.runInNewContext(code,{document:doc,window:w,location:{hostname:host},navigator:{userAgent:ua}});return {events,classes}}
+          const a=run('iskconhadapsar.vercel.app','Android');
+          assert(a.classes.includes('hadapsar-app-interaction'));
+          for(const type of ['contextmenu','selectstart','dragstart']){let blocked=false;a.events[type]({target:{nodeType:1,closest:()=>null},preventDefault(){blocked=true}});assert(blocked,type);blocked=false;a.events[type]({target:{nodeType:1,closest:()=>({})},preventDefault(){blocked=true}});assert(!blocked,'editable '+type);blocked=false;a.events[type]({target:{nodeType:1,isContentEditable:true,closest:()=>null},preventDefault(){blocked=true}});assert(!blocked,'contenteditable '+type)}
+          assert(!a.events.touchstart && !a.events.touchmove && !a.events.click);
+          assert.equal(run('www.iskconhadapsar.online','Chrome').classes.length,0);
+          assert.equal(run('www.iskconhadapsar.online','HadapsarMedia/1').classes.length,1);
+          console.log('PASS: app scope, text and drag suppression, editable exemptions, touch/click preservation');
+          
+          JS
+          node /tmp/verify-interaction.js
+          git diff --check
+      - name: Publish app interaction fix
+        run: |
+          git config user.name 'app-interaction-bot'
+          git config user.email 'app-interaction-bot@users.noreply.github.com'
+          git add -- '*.html'
+          git commit -m 'Disable accidental text selection and long-press menus throughout app UI'
+          git push origin HEAD:main
